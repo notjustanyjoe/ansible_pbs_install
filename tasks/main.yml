@@ -1,9 +1,19 @@
 ---
 # tasks file for ansible_pbs_install
 
-- name: Load Distirbution specific vars
+- name: Load Distribution specific vars
   ansible.builtin.include_vars:
     file: 'vars/{{ansible_distribution}}.yml'
+
+- name: Load Server Specific vars
+  ansible.builtin.include_vars:
+    file: 'vars/pbs_server.yml'
+  when: pbs_server
+
+- name: Load Exec/Compute Specific vars
+  ansible.builtin.include_vars:
+    file: 'vars/pbs_compute.yml'
+  when: not pbs_server
 
 - name: Ensure Hostname is set on machine
   ansible.builtin.hostname:
@@ -56,6 +66,27 @@
     line: PBS_START_MOM=1
     regexp: ^PBS_START_MOM
   when: pbs_exec | bool
+  notify: pbs_service
+
+- name: Set PBS_START_SERVER
+  ansible.builtin.lineinfile:
+    path: /etc/pbs.conf
+    line: '{{ PBS_START_SERVER }}'
+    regexp: ^PBS_START_SERVER
+  notify: pbs_service
+
+- name: Set PBS_START_SCHED
+  ansible.builtin.lineinfile:
+    path: /etc/pbs.conf
+    line: '{{ PBS_START_SCHED }}'
+    regexp: ^PBS_START_SCHED
+  notify: pbs_service
+
+- name: Set PBS_START_COMM
+  ansible.builtin.lineinfile:
+    path: /etc/pbs.conf
+    line: '{{ PBS_START_COMM }}'
+    regexp: ^PBS_START_COMM
   notify: pbs_service
 
 - name: Set PBS_SERVER name
