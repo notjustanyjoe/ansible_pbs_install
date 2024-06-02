@@ -4,11 +4,12 @@
 - name: Load Distirbution specific vars
   ansible.builtin.include_vars:
     file: 'vars/{{ansible_distribution}}.yml'
-#disable selinux
+
 - name: Ensure Hostname is set on machine
   ansible.builtin.hostname:
     name: '{{ pbs_servername }}'
-  #will need a check to ensure this is set on server only
+  when: pbs_server 
+
 - name: Ensure dnf plugins is installed 
   ansible.builtin.dnf:
     name: dnf-plugins-core 

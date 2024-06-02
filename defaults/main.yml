@@ -6,4 +6,5 @@ PBS_PKG_URL: 'https://github.com/openpbs/openpbs/archive/refs/tags'
 pbs_install_dir: /opt/pbs
 # Set True if PBS_START_MOM should be enabled for exec node.
 pbs_exec: true
+pbs_server: false
 pbs_servername: '{{ ansible_host }}'
