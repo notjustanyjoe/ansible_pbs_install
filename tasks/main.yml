@@ -57,6 +57,6 @@
 - name: Set PBS_SERVER name
   ansible.builtin.lineinfile:
     path: /etc/pbs.conf
-    line: "PBS_SERVER={{ ansible_host }}"
+    line: "PBS_SERVER={{ pbs_servername }}"
     regexp: ^PBS_SERVER
   notify: pbs_service
