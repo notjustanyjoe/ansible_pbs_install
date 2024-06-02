@@ -5,7 +5,10 @@
   ansible.builtin.include_vars:
     file: 'vars/{{ansible_distribution}}.yml'
 #disable selinux
-
+- name: Ensure Hostname is set on machine
+  ansible.builtin.hostname:
+    name: '{{ pbs_servername }}'
+  #will need a check to ensure this is set on server only
 - name: Ensure dnf plugins is installed 
   ansible.builtin.dnf:
     name: dnf-plugins-core 
@@ -60,3 +63,4 @@
     line: "PBS_SERVER={{ pbs_servername }}"
     regexp: ^PBS_SERVER
   notify: pbs_service
+
