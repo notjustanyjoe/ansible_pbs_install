@@ -1,0 +1,12 @@
+---
+# handlers file for ansible_pbs_install
+- name: sshd_restart
+  ansible.builtin.systemd_service:
+    state: restarted
+    name: sshd
+
+- name: pbs_service
+  ansible.builtin.systemd_service:
+    state: restarted
+    enabled: true
+    name: pbs

@@ -1,0 +1,62 @@
+---
+# tasks file for ansible_pbs_install
+
+- name: Load Distirbution specific vars
+  ansible.builtin.include_vars:
+    file: 'vars/{{ansible_distribution}}.yml'
+#disable selinux
+
+- name: Ensure dnf plugins is installed 
+  ansible.builtin.dnf:
+    name: dnf-plugins-core 
+    state: present 
+
+- name: Enable CRB or Powertools 
+  community.general.dnf_config_manager:
+    name: '{{ extra_repo }}'
+    state: enabled
+
+- name: Ensure EPEL Release is installed
+  ansible.builtin.dnf: 
+    name: '{{ epel_package }}'
+    state: present 
+
+- name: Ensure PBS Required Packages are present 
+  ansible.builtin.dnf:
+    name: '{{ pbs_req_pkgs }}'
+    state: present 
+
+- name: Ensure Password Auth enabled in SSHD_CONFIG
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config 
+    line: PasswordAuthentication yes 
+    regex: ^PasswordAuthentication.*
+  notify: sshd_restart
+
+- name: Create Install Script from Template
+  ansible.builtin.template:
+    src: pbs_install.j2
+    dest: /usr/local/src/pbs_install.sh
+    mode: '0750'
+  register: pbs_script
+
+- name: Run Install script for PBS (This can take some time....)
+  ansible.builtin.command: 
+    cmd: /usr/local/src/pbs_install.sh
+  when: pbs_script is changed
+  notify: pbs_service
+
+- name: Set PBS_START_MOM if exec node
+  ansible.builtin.lineinfile:
+    path: /etc/pbs.conf
+    line: PBS_START_MOM=1
+    regexp: ^PBS_START_MOM
+  when: pbs_exec | bool
+  notify: pbs_service
+
+- name: Set PBS_SERVER name
+  ansible.builtin.lineinfile:
+    path: /etc/pbs.conf
+    line: "PBS_SERVER={{ ansible_host }}"
+    regexp: ^PBS_SERVER
+  notify: pbs_service

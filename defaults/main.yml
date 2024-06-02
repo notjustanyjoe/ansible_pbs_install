@@ -1,0 +1,8 @@
+---
+# defaults file for ansible_pbs_install
+PBS_VERSION: 23.06.06
+PBS_PKG: 'v{{ PBS_VERSION }}.tar.gz'
+PBS_PKG_URL: 'https://github.com/openpbs/openpbs/archive/refs/tags'
+pbs_install_dir: /opt/pbs
+# Set True if PBS_START_MOM should be enabled for exec node.
+pbs_exec: true
