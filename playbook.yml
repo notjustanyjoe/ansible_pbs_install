@@ -5,3 +5,5 @@
   become: true
   roles:
     - role: ansible_pbs_install
+      vars:
+        pbs_servername: "head.home.local"
