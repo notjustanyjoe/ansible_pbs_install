@@ -9,3 +9,4 @@ pbs_exec: true
 # Set True if this install is for the PBS Scheduler/Server. False for compute/exec node
 pbs_server: false
 pbs_servername: head
+skip_handlers: false

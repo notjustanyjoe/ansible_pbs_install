@@ -10,3 +10,5 @@
     state: restarted
     enabled: true
     name: pbs
+  when:
+    - skip_handlers | default("false") == "false"
