@@ -23,7 +23,7 @@
 - name: Ensure dnf plugins is installed 
   ansible.builtin.dnf:
     name: dnf-plugins-core 
-    state: present 
+    state: present
 
 - name: Enable CRB or Powertools 
   community.general.dnf_config_manager:
@@ -34,6 +34,7 @@
   ansible.builtin.dnf: 
     name: '{{ epel_package }}'
     state: present 
+  when: pbs_manage_epel
 
 - name: Ensure PBS Required Packages are present 
   ansible.builtin.dnf:
