@@ -10,3 +10,5 @@ pbs_exec: true
 pbs_server: false
 pbs_servername: head
 skip_handlers: false
+# Manage EPEL (usefule when satellite manages EPEL)
+pbs_manage_epel: true
