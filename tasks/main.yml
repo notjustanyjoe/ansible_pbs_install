@@ -58,8 +58,8 @@
 - name: 'Untar pbs tar.gz file (v{{ PBS_VERSION }})'
   ansible.builtin.unarchive:
     src: 'openpbs-{{ PBS_VERSION }}.tar.gz'
-    dest: '/usr/local/src/openpbs-{{ PBS_VERSION }}'
-    
+    dest: /usr/local/src/
+
 - name: Run Install script for PBS (This can take some time....)
   ansible.builtin.command: 
     cmd: /usr/local/src/pbs_install.sh
