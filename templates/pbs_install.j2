@@ -1,15 +1,15 @@
 #!/bin/bash
 PBS_VERSION={{ PBS_VERSION }}
 
-{% if pbs_env_proxy %}
-export HTTPS_PROXY={{ pbs_proxy }}
-{% endif %}
-wget https://github.com/openpbs/openpbs/archive/refs/tags/v{{ PBS_VERSION }}.tar.gz
+#{% if pbs_env_proxy %}
+#export HTTPS_PROXY={{ pbs_proxy }}
+#{% endif %}
+#wget https://github.com/openpbs/openpbs/archive/refs/tags/v{{ PBS_VERSION }}.tar.gz
 
 #3. Open a terminal as a normal (non-root) user, unpack the PBS tarball, and cd to the package directory.
 
-tar -xpvf v{{ PBS_VERSION }}.tar.gz
-cd openpbs-{{ PBS_VERSION }}
+#tar -xpvf v{{ PBS_VERSION }}.tar.gz
+cd /usr/local/src/openpbs-{{ PBS_VERSION }}
 
 #4. Generate the configure script and Makefiles. (See note 1 below)
 
@@ -31,14 +31,14 @@ make
 
 #9. Install PBS. Use sudo to run the command as root.
 
-sudo make install
+make install
 
 #10. Configure PBS by executing the post-install script.
 
-sudo {{ pbs_install_dir }}/libexec/pbs_postinstall
+{{ pbs_install_dir }}/libexec/pbs_postinstall
 
 #11. Edit /etc/pbs.conf to configure the PBS services that should be started. If you are installing PBS on only one system, you should change the value of PBS_START_MOM from zero to one. If you use vi as your editor, you would run:
 
 #12. Some file permissions must be modified to add SUID privilege.
 
-sudo chmod 4755 {{ pbs_install_dir }}/sbin/pbs_iff /opt/pbs/sbin/pbs_rcp
+chmod 4755 {{ pbs_install_dir }}/sbin/pbs_iff /opt/pbs/sbin/pbs_rcp
