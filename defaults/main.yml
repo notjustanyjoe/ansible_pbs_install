@@ -12,3 +12,7 @@ pbs_servername: head
 skip_handlers: false
 # Manage EPEL (usefule when satellite manages EPEL)
 pbs_manage_epel: true
+# Whether to use a proxy for script or not
+pbs_env_proxy: false
+# Must be populated with proxy when pbs_env_proxy is true (e.g. http://proxy:8000)
+pbs_proxy: ''
