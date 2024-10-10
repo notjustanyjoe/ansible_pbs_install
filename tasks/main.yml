@@ -57,6 +57,7 @@
   ansible.builtin.dnf:
     name: /usr/local/src/openpbs-server-23.06.06-0.x86_64.rpm
     state: present
+    disable_gpg_check: true
 # - name: Create Install Script from Template
 #   ansible.builtin.template:
 #     src: pbs_install.j2
