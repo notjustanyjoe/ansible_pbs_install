@@ -75,7 +75,6 @@
 #   when: pbs_script is changed
 #   notify: pbs_service
 
-- name: Install 
 - name: Set PBS_START_MOM if exec node
   ansible.builtin.lineinfile:
     path: /etc/pbs.conf
