@@ -50,31 +50,14 @@
 
 - name: Move RPM file in place
   ansible.builtin.copy:
-    src: openpbs-server-23.06.06-0.x86_64.rpm
-    dest: /usr/local/src/openpbs-server-23.06.06-0.x86_64.rpm
+    src: '{{ PBS_RPM }}'
+    dest: '/usr/local/src/{{ PBS_RPM }}'
 
 - name: Install RPM 
   ansible.builtin.dnf:
-    name: /usr/local/src/openpbs-server-23.06.06-0.x86_64.rpm
+    name: '/usr/local/src/{{ PBS_RPM }}'
     state: present
     disable_gpg_check: true
-# - name: Create Install Script from Template
-#   ansible.builtin.template:
-#     src: pbs_install.j2
-#     dest: /usr/local/src/pbs_install.sh
-#     mode: '0750'
-#   register: pbs_script
-
-# - name: 'Untar pbs tar.gz file (v{{ PBS_VERSION }})'
-#   ansible.builtin.unarchive:
-#     src: 'openpbs-{{ PBS_VERSION }}.tar.gz'
-#     dest: /usr/local/src/
-
-# - name: Run Install script for PBS (This can take some time....)
-#   ansible.builtin.command: 
-#     cmd: /usr/local/src/pbs_install.sh
-#   when: pbs_script is changed
-#   notify: pbs_service
 
 - name: Set PBS_START_MOM if exec node
   ansible.builtin.lineinfile:
