@@ -1,6 +1,9 @@
 #!/bin/bash
 PBS_VERSION={{ PBS_VERSION }}
 
+{% if pbs_env_proxy %}
+export HTTPS_PROXY={{ pbs_proxy }}
+{% endif %}
 wget https://github.com/openpbs/openpbs/archive/refs/tags/v{{ PBS_VERSION }}.tar.gz
 
 #3. Open a terminal as a normal (non-root) user, unpack the PBS tarball, and cd to the package directory.
